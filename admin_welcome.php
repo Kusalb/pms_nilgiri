@@ -23,7 +23,7 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !==true)
 
 
 <div class="container mt-4">
-    <h3><?php echo "Welcome user". $_SESSION['username']?>! You can now use this website</h3>
+    <h3><?php echo "Welcome admin". $_SESSION['username']?>! You can now use this website</h3>
     <hr>
 
 </div></body>

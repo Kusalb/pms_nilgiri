@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
 
     if(empty($err))
     {
-        $sql = "SELECT id, username, password FROM users WHERE username = ?";
+        $sql = "SELECT id, username, password, role FROM users WHERE username = ?";
         $stmt = mysqli_prepare($conn, $sql);
         mysqli_stmt_bind_param($stmt, "s", $param_username);
         $param_username = $username;
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
             mysqli_stmt_store_result($stmt);
             if(mysqli_stmt_num_rows($stmt) == 1)
             {
-                mysqli_stmt_bind_result($stmt, $id, $username, $hashed_password);
+                mysqli_stmt_bind_result($stmt, $id, $username, $hashed_password, $role);
                 if(mysqli_stmt_fetch($stmt))
                 {
                     if(password_verify($password, $hashed_password))
@@ -49,6 +49,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
                         $_SESSION["id"] = $id;
                         $_SESSION["loggedin"] = true;
 
+                        if($role=="admin"){
+                            header("location: admin_welcome.php");
+
+                        }else{
+                            //Redirect user to welcome page
+                            header("location: welcome.php");
+                        }
                         //Redirect user to welcome page
                         header("location: welcome.php");
 
