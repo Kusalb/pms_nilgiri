@@ -1,5 +1,14 @@
 <?php
 require_once "../config.php";
+session_start();
+if(!isset($_SESSION['username']))
+{
+    header("location: login.php");
+    exit;
+}
+$sql = "SELECT * FROM profile WHERE user_id=".$_SESSION['id'];
+$profile=mysqli_query($conn,$sql);
+$profile_data = mysqli_fetch_array($profile);
 
 // Define variables and initialize with empty values
 $project_title= $project_description = $github_link = "";
@@ -43,15 +52,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (empty($project_title_err) && empty($project_description_err) && empty($github_link_err)) {
-        $sql = "INSERT INTO persons (project_title, project_description, github_link) VALUES (?, ?, ?)";
+        $sql = "INSERT INTO projects (project_title, project_description, github_link, profile_id) VALUES (?, ?, ?,?)";
         if ($stmt = mysqli_prepare($conn, $sql)) {
-            mysqli_stmt_bind_param($stmt, "ssss", $first_name, $last_name, $email, $filename);
+            mysqli_stmt_bind_param($stmt, "sssi", $project_title, $project_description, $github_link, $profile_id);
 
             // Set parameters
-            $first_name = trim($_POST['first_name']);
-            $last_name = trim($_POST['last_name']);
-            $email = trim($_POST['email']);
-            $filename=$_FILES['image']['name'];
+            $project_title = $_POST['project_title'];
+            $project_description = $_POST['project_description'];
+            $github_link= $_POST['github_link'];
+            $profile_id = $profile_data['id'];
 
             // Attempt to execute the prepared statement
             if (mysqli_stmt_execute($stmt)) {
