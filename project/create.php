@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 // Validate project description
     $input_project_description = trim($_POST["project_description"]);
-    if (empty($input_description)) {
+    if (empty($input_project_description)) {
         $input_project_description_err = "Please enter a description.";
         echo "Please enter a description.";
     } else {
