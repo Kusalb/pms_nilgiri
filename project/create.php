@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $project_title = $_POST['project_title'];
             $project_description = $_POST['project_description'];
             $github_link= $_POST['github_link'];
-            $profile_id = $profile_data['id'];
+            $profile_id = $profile_data['profile_id'];
 
             // Attempt to execute the prepared statement
             if (mysqli_stmt_execute($stmt)) {
